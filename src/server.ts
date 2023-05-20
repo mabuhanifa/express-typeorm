@@ -30,10 +30,14 @@ const AppDataSource = new DataSource({
   database: process.env.DATABASE,
 });
 
-AppDataSource.initialize().then(() => {
-  console.log(`PostgreSQL database is connected`);
-});
+AppDataSource.initialize()
+  .then(() => {
+    console.log(`PostgreSQL database is connected`);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+  console.log(`App running and listening on port ${port}`);
 });
