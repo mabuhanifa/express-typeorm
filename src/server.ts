@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { pool } from "./db";
 dotenv.config();
 const port = 3000;
 
@@ -20,13 +19,7 @@ app.post("/", (req: Request, res: Response) => {
   }
 });
 
-app.get("/", (req: Request, res: Response) => {
-  const books = pool.query("SELECT * FROM book");
-  res.status(201).json({
-    message: `success`,
-    data: books,
-  });
-});
+app.get("/", (req: Request, res: Response) => {});
 
 const AppDataSource = new DataSource({
   type: "postgres",
@@ -35,6 +28,10 @@ const AppDataSource = new DataSource({
   host: process.env.HOST,
   port: Number(process.env.PORT),
   database: process.env.DATABASE,
+});
+
+AppDataSource.initialize().then(() => {
+  console.log(`PostgreSQL database is connected`);
 });
 
 app.listen(port, () => {
