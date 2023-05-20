@@ -14,7 +14,7 @@ export const pool = new Pool({
 (async () => {
   try {
     await pool.connect();
-    console.log("Postgresql is connected");
+    console.log("PostgreSQL Database is connected");
   } catch (error) {
     console.log(error);
   }

@@ -1,11 +1,10 @@
 import express, { Request, Response } from "express";
 import { pool } from "./db";
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 const app = express();
 app.use(express.json());
-console.log(`object`);
-const pools = pool;
+
 app.post("/", (req: Request, res: Response) => {
   const data = req.body;
   try {
@@ -14,6 +13,14 @@ app.post("/", (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+app.get("/", (req: Request, res: Response) => {
+  const books = pool.query("SELECT * FROM book");
+  res.status(201).json({
+    message: `success`,
+    data: books,
+  });
 });
 
 app.listen(port, () => {
