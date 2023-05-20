@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import "reflect-metadata";
+import { DataSource } from "typeorm";
 import { pool } from "./db";
 const port = 3000;
 
@@ -23,6 +24,8 @@ app.get("/", (req: Request, res: Response) => {
     data: books,
   });
 });
+
+const AppDataSource = new DataSource({});
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
