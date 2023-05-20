@@ -3,7 +3,7 @@ import pg from "pg";
 dotenv.config();
 const { Pool } = pg;
 
-const pool = new Pool({
+export const pool = new Pool({
   user: process.env.USER,
   password: process.env.PASSWORD,
   host: process.env.HOST,
@@ -11,4 +11,11 @@ const pool = new Pool({
   database: process.env.DATABASE,
 });
 
-module.exports = pool;
+(async () => {
+  try {
+    await pool.connect();
+    console.log("Postgresql is connected");
+  } catch (error) {
+    console.log(error);
+  }
+})();
