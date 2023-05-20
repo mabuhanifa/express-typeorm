@@ -33,11 +33,10 @@ const AppDataSource = new DataSource({
 AppDataSource.initialize()
   .then(() => {
     console.log(`PostgreSQL database is connected`);
+    app.listen(port, () => {
+      console.log(`App running and listening on port ${port}`);
+    });
   })
   .catch((error) => {
     console.log(error);
   });
-
-app.listen(port, () => {
-  console.log(`App running and listening on port ${port}`);
-});
