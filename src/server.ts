@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import "reflect-metadata";
 import { pool } from "./db";
 const port = 3000;
 
