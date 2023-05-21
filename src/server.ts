@@ -2,16 +2,14 @@ import express, { Request, Response } from "express";
 import "reflect-metadata";
 import { AppDataSource } from "./dataSource/dataSource";
 import { User } from "./entities/User";
+import userRouter from "./routes/userRoute";
 
 const port = 3000;
 const app = express();
 app.use(express.json());
+app.use(userRouter);
 
-app.get("/", async (req: Request, res: Response) => {
-  const userRepo = AppDataSource.getRepository("User");
-  const user = await userRepo.find();
-  res.json(user);
-});
+app.get("/", async (req: Request, res: Response) => {});
 
 app.post("/", async (req: Request, res: Response) => {
   const data = await req.body;
