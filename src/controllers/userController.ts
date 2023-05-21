@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../dataSource/dataSource";
+import { getUserService } from "../services/userServices";
 
 export async function userController(req: Request, res: Response) {
-  const userRepo = AppDataSource.getRepository("User");
   try {
-    const user = await userRepo.find();
-    res.json(user);
+    const users = await getUserService();
+    console.log(req.method);
+    res.json(users);
   } catch (error) {
     console.log(error);
   }
