@@ -1,25 +1,16 @@
-import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { AppDataSource } from "./dataSource/dataSource";
 import { User } from "./entities/User";
-dotenv.config();
-const port = 3000;
 
+const port = 3000;
 const app = express();
 app.use(express.json());
-dotenv.config();
 
-const AppDataSource = new DataSource({
-  type: "postgres",
-  username: process.env.USER,
-  password: process.env.PASSWORD,
-  host: process.env.HOST,
-  port: 5432,
-  database: process.env.DATABASE,
-  entities: ["src/entities/*{.ts,.js}"],
-  synchronize: true,
-  logging: true,
+app.get("/", async (req: Request, res: Response) => {
+  const userRepo = AppDataSource.getRepository("User");
+  const user = await userRepo.find();
+  res.json(user);
 });
 
 app.post("/", async (req: Request, res: Response) => {
@@ -33,12 +24,6 @@ app.post("/", async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
   }
-});
-
-app.get("/", async (req: Request, res: Response) => {
-  const userRepo = AppDataSource.getRepository("User");
-  const user = await userRepo.find();
-  res.json(user);
 });
 
 AppDataSource.initialize()
