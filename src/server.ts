@@ -9,18 +9,6 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 
-app.post("/", (req: Request, res: Response) => {
-  const data = req.body;
-  try {
-    console.log(data);
-    res.send(data);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.get("/", (req: Request, res: Response) => {});
-
 const AppDataSource = new DataSource({
   type: "postgres",
   username: process.env.USER,
@@ -31,6 +19,22 @@ const AppDataSource = new DataSource({
   entities: ["src/entities/*{.ts,.js}"],
   synchronize: true,
   logging: true,
+});
+
+app.post("/", async (req: Request, res: Response) => {
+  const data = await req.body;
+  try {
+    console.log(data);
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/", async (req: Request, res: Response) => {
+  const userRepo = AppDataSource.getRepository("User");
+  const user = await userRepo.find();
+  res.json(user);
 });
 
 AppDataSource.initialize()
