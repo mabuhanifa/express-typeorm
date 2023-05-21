@@ -26,8 +26,11 @@ const AppDataSource = new DataSource({
   username: process.env.USER,
   password: process.env.PASSWORD,
   host: process.env.HOST,
-  port: Number(process.env.PORT),
+  port: 5432,
   database: process.env.DATABASE,
+  entities: ["src/entities/*{.ts,.js}"],
+  synchronize: true,
+  logging: true,
 });
 
 AppDataSource.initialize()
