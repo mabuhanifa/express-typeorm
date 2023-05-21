@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { User } from "./entities/User";
 dotenv.config();
 const port = 3000;
 
@@ -23,9 +24,12 @@ const AppDataSource = new DataSource({
 
 app.post("/", async (req: Request, res: Response) => {
   const data = await req.body;
+  const userRepo = AppDataSource.getRepository("User");
   try {
-    console.log(data);
-    res.send(data);
+    let user: User = new User();
+    user = data;
+    await userRepo.save(user);
+    res.json(user);
   } catch (error) {
     console.log(error);
   }
