@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { getUserService, getUsersService } from "../services/userServices";
+
+import {
+  deleteUserService,
+  getUserService,
+  getUsersService,
+} from "../services/userServices";
 
 export async function getUsers(req: Request, res: Response) {
   try {
@@ -23,8 +28,10 @@ export async function getUser(req: Request, res: Response) {
 export async function deleteUser(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const user = await id;
-    res.json(user);
+    const isDeleted = Number(await deleteUserService(id));
+    isDeleted > 0
+      ? res.json({ success: true, message: `User with id ${id} deleted` })
+      : res.json({ success: false, message: `User with id ${id} not found` });
   } catch (error) {
     console.log(error);
   }

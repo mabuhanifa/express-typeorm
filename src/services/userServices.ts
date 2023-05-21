@@ -22,11 +22,15 @@ export async function getUserService(id: number | string) {
   }
 }
 
-// export async function deleteUserService(id) {
-//   const userRepo = AppDataSource.getRepository("User");
-//   try {
-//     return await userRepo.delete(id);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export async function deleteUserService(id: number | string) {
+  const userRepo = AppDataSource.getRepository("User");
+  try {
+    const response = await userRepo.delete({
+      id: id,
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
