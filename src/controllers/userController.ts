@@ -19,7 +19,10 @@ export async function getUser(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const user = await getUserService(id);
-    res.json(user);
+
+    user
+      ? res.json({ success: true, data: user })
+      : res.json({ success: false, message: `User with id ${id} not found` });
   } catch (error) {
     console.log(error);
   }
