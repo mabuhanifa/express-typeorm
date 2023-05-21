@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../dataSource/dataSource";
-import { getUsersService } from "../services/userServices";
+import { getUserService, getUsersService } from "../services/userServices";
 
 export async function getUsers(req: Request, res: Response) {
   try {
@@ -12,22 +11,21 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function getUser(req: Request, res: Response) {
-  const userRepo = AppDataSource.getRepository("User");
   try {
     const { id } = req.params;
-    const user = await userRepo.findOneBy({ id: id });
+    const user = await getUserService(id);
     res.json(user);
   } catch (error) {
     console.log(error);
   }
 }
 
-// export async function deleteUser(req: Request, res: Response) {
-//   try {
-//     const { id } = req.params;
-//     const user = await id;
-//     res.json(user);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export async function deleteUser(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const user = await id;
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+  }
+}

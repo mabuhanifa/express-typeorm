@@ -9,14 +9,18 @@ export async function getUsersService() {
   }
 }
 
-// export async function getUserService(id: number) {
-//   const userRepo = AppDataSource.getRepository("User");
-//   try {
-//     return await userRepo.findOne({ id });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+export async function getUserService(id: number | string) {
+  const userRepo = AppDataSource.getRepository("User");
+  try {
+    return await userRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // export async function deleteUserService(id) {
 //   const userRepo = AppDataSource.getRepository("User");
