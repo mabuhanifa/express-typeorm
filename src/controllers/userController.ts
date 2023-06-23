@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+import { db } from "../dataSource/dataSource";
+import { User } from "../entities/User";
 import {
   deleteUserService,
   getUserService,
@@ -10,6 +12,19 @@ export async function getUsers(req: Request, res: Response) {
   try {
     const users = await getUsersService();
     res.json(users);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createUser(req: Request, res: Response) {
+  const data = await req.body;
+  const userRepo = db.getRepository("User");
+  try {
+    let user: User = new User();
+    user = data;
+    await userRepo.save(user);
+    res.json(user);
   } catch (error) {
     console.log(error);
   }
