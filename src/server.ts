@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import "reflect-metadata";
-import { AppDataSource } from "./dataSource/dataSource";
+import { db } from "./dataSource/dataSource";
 import { User } from "./entities/User";
 import userRouter from "./routes/userRoute";
 
@@ -17,7 +17,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.post("/", async (req: Request, res: Response) => {
   const data = await req.body;
-  const userRepo = AppDataSource.getRepository("User");
+  const userRepo = db.getRepository("User");
   try {
     let user: User = new User();
     user = data;
@@ -28,7 +28,7 @@ app.post("/", async (req: Request, res: Response) => {
   }
 });
 
-AppDataSource.initialize()
+db.initialize()
   .then(() => {
     console.log(`PostgreSQL database is connected`);
     app.listen(port, () => {

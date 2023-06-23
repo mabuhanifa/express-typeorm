@@ -1,7 +1,7 @@
-import { AppDataSource } from "../dataSource/dataSource";
+import { db } from "../dataSource/dataSource";
 
 export async function getUsersService() {
-  const userRepo = AppDataSource.getRepository("User");
+  const userRepo = db.getRepository("User");
   try {
     return await userRepo.find();
   } catch (error) {
@@ -10,7 +10,7 @@ export async function getUsersService() {
 }
 
 export async function getUserService(id: number | string) {
-  const userRepo = AppDataSource.getRepository("User");
+  const userRepo = db.getRepository("User");
   try {
     return await userRepo.findOne({
       where: {
@@ -23,7 +23,7 @@ export async function getUserService(id: number | string) {
 }
 
 export async function deleteUserService(id: number | string) {
-  const userRepo = AppDataSource.getRepository("User");
+  const userRepo = db.getRepository("User");
   try {
     const response = await userRepo.delete({
       id: id,

@@ -3,14 +3,15 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 dotenv.config();
 
-export const AppDataSource = new DataSource({
+export const db = new DataSource({
   type: "postgres",
-  username: process.env.USER,
-  password: process.env.PASSWORD,
-  host: process.env.HOST,
-  port: 5432,
-  database: process.env.DATABASE,
-  entities: ["src/entities/*{.ts,.js}"],
+  url: process.env.DATABASE_URI,
+  logging: false,
   synchronize: true,
-  logging: true,
+  entities: ["./src/Entities/**/*.ts"],
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 });
