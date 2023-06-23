@@ -1,10 +1,9 @@
-import express from "express";
+import { Router } from "express";
 import { deleteUser, getUser, getUsers } from "../controllers/userController";
-const app = express();
-const router = express.Router();
+
+const router = Router();
 
 router.route("/user").get(getUsers);
-router.route("/user/:id").get(getUser);
-router.route("/user/:id").delete(deleteUser);
+router.route("/user/:id").get(getUser).delete(deleteUser);
 
 export default router;
