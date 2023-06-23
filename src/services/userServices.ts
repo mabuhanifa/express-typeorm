@@ -1,4 +1,5 @@
 import { db } from "../dataSource/dataSource";
+import { User } from "../entities/User";
 
 export async function getUsersService() {
   const userRepo = db.getRepository("User");
@@ -17,6 +18,15 @@ export async function getUserService(id: number | string) {
         id: id,
       },
     });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createUserService(data: User) {
+  const userRepo = db.getRepository("User");
+  try {
+    return await userRepo.save(data);
   } catch (error) {
     console.log(error);
   }

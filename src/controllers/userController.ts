@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 
-import { db } from "../dataSource/dataSource";
-import { User } from "../entities/User";
 import {
+  createUserService,
   deleteUserService,
   getUserService,
   getUsersService,
@@ -13,20 +12,19 @@ export async function getUsers(req: Request, res: Response) {
     const users = await getUsersService();
     res.json(users);
   } catch (error) {
-    console.log(error);
+    res.json(error);
   }
 }
 
 export async function createUser(req: Request, res: Response) {
   const data = await req.body;
-  const userRepo = db.getRepository("User");
   try {
-    let user: User = new User();
-    user = data;
-    await userRepo.save(user);
-    res.json(user);
+    const user = await createUserService(data);
+    user
+      ? res.json({ success: true, data: user })
+      : res.json({ success: false, message: `failed to create user` });
   } catch (error) {
-    console.log(error);
+    res.json(error);
   }
 }
 
@@ -34,12 +32,11 @@ export async function getUser(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const user = await getUserService(id);
-
     user
       ? res.json({ success: true, data: user })
       : res.json({ success: false, message: `User with id ${id} not found` });
   } catch (error) {
-    console.log(error);
+    res.json(error);
   }
 }
 
@@ -51,6 +48,6 @@ export async function deleteUser(req: Request, res: Response) {
       ? res.json({ success: true, message: `User with id ${id} deleted` })
       : res.json({ success: false, message: `User with id ${id} not found` });
   } catch (error) {
-    console.log(error);
+    res.json(error);
   }
 }
